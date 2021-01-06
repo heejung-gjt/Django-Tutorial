@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <!-- Required meta tags -->
+        {% load static %}
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'login.css'%}">
+
+</head>
+<body>
+
+
+    <div class="popup">
+        <div class="popup_form">
+            <h1>login</h1>
+            <i class="far fa-times-circle" id="close" style="font-size:25px;color: rgb(44, 44, 255);"></i>
+            <form method="POST" class="popup-content" action='.'>
+                <input type="hidden" name="csrfmiddlewaretoken" value="YHL6mYXKczqrI6qX92BS4I0fCuZXwVBnlBrldhJG6yDg6AaF21SFQUFXQacI8kcB">
+                <li> 
+                    <input 
+                    type="text" 
+                    placeholder="username"
+                    id='username'
+                    name='username'
+                    >
+                </li>
+                <li>  
+                    <input 
+                    type="password" 
+                    placeholder="password"
+                    id='password'
+                    name='password'
+                    >
+                </li>
+                <li>
+                    <button type="submit" class="button">로그인</button>    
+                </li>
+                
+                    <ul class="plus">
+                        <li><a href="">회원가입</a></li>
+                        <li><a href="">아이디 찾기</a></li>
+                        <li><a href="">비밀번호 찾기</a></li>
+                    </ul>
+                    <li> 
+                        <div>
+                            
+                        </div>
+                    </li>   
+            </form>
+        </div>
+    </div>  
+    
+</body>
+</html>
