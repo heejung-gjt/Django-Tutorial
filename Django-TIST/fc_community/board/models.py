@@ -3,10 +3,12 @@ from django.db import models
 # Create your models here.
 
 class Board(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=32,
                                 verbose_name='Title')
     contents=models.TextField(verbose_name='Content')
     writer = models.ForeignKey('fcuser.Fcuser',on_delete=models.CASCADE, verbose_name='작성자')  # 모델을 id로 연결하는 필드를 만들어준다 fcuser에 있는 Fcuser와 연결해준다. 사용자가 삭제 한 경우 사용자의 모든 게시글을 삭제해준다
+    # tags = models.ManyToManyField('tag.Tag',verbose_name='태그')
     registered_dttm = models.DateTimeField(auto_now_add=True,
                                 verbose_name='등록시간')
     

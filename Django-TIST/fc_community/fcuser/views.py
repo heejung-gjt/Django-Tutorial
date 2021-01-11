@@ -9,14 +9,13 @@ from .forms import LoginForm   #forms.py에 있는 class LoginForm 가지고 옴
 
 
 def home(request):
-    user_id = request.session.get('user')
-
-    if user_id: #만약 user가 있으면
-        fcuser = Fcuser.objects.get(pk=user_id) #기본키를 user_id, 즉 model안에서 id를 pk로 지정해 가져온다
+#세션에 대한 유무확인을 하는 코드였지만 home.html에서 할 수 있으므로 지워준다
+  #user_id = request.session.get('user')
+    # if user_id: #만약 user가 있으면
+    #     fcuser = Fcuser.objects.get(pk=user_id) #기본키를 user_id, 즉 model안에서 id를 pk로 지정해 가져온다
         
-        return HttpResponse(fcuser.username)
-    else:
-        return HttpResponse('home')
+    return render(request, 'home.html')
+
 
 def logout(request):
     if request.session.get('user'):
@@ -29,13 +28,12 @@ def login(request):  #template인 login.html과 연결시켜준다
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            #세션검증
             request.session['user'] = form.user_id
-            return redirect('/')
+        return redirect('/')
     else:
         form = LoginForm()
 
-    return render(request, 'login.html', {'form' : form})
+    return render(request,'login.html', {'form' : form })
     # if request.method == 'GET':
     #     return render(request, 'login.html')
     # elif request.method == 'POST':

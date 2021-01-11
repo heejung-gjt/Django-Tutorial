@@ -38,7 +38,8 @@ INSTALLED_APPS = [ #설치된 앱
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'board',
-    'fcuser'
+    'fcuser',
+    'tag',
 ]
 
 MIDDLEWARE = [

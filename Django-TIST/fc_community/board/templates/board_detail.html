@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+<!--extends를 이용하여 base.html를 상속 받자-->
+<!-- board html을 작성한후 화면에 보이게 하기 위해서 urls.py에서 board를 연결해준다. board에 urls.py를 만들어서 url를 연결해주고 그 뒤에 view에서 board_list라는 함수를 만들어주어야한다   -->
+{% block contents %}
+<!-- board detail html 사용 -->
+<div class="row mt-5">
+    <div class="col-12">
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id='title' value='{{ board.title }}' readonly>
+                <label for="contents">내용</label>
+                <textarea class='form-control'readonly>{{board.contents}}</textarea>
+            </div>
+            <button class="btn btn-primary"onclick="location.href='/board/list/'">돌아가기</button>
+    </div>
+</div>
+{% endblock %}

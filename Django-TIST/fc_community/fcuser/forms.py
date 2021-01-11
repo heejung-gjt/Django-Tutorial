@@ -25,8 +25,12 @@ class LoginForm(forms.Form): #2개의 필드를 사용하는 폼이 생성됨
         password = cleaned_data.get('password')
 
         if username and password:
-            fcuser = Fcuser.objects.get(username=username)
+            try:
+                fcuser = Fcuser.objects.get(username=username)
+            except Fcuser.DoesNotExist:
+                self.add_error('username','ID가 없습니다')
+                return
             if not check_password(password, fcuser.password):
-                self.add_error('password','비밀번호를 틀렸습니다')
+                self.add_error('password','Password를 틀렸습니다')
             else:
                 self.user_id = fcuser.id
