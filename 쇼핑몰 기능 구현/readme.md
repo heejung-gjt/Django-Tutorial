@@ -26,7 +26,7 @@ $ django-admin startapp order
 - ### model 생성하기   
 
 1. user에 있는 models.py 작성하기    
-email, pwd, 등록날짜의 필드를 갖는 User class를 생성한다.   
+email, password 등록날짜의 필드를 갖는 User class를 생성한다.   
 admin 관리자 페이지에서 보여질 name을 class meta를 이용하여 변경해준다
 
 ##### user/models.py
@@ -34,7 +34,7 @@ admin 관리자 페이지에서 보여질 name을 class meta를 이용하여 변
 ```python
 class User(models.Model):
   email = models.EmailField(verbose_name='이메일')
-  pwd = models.CharField(max_length=64, verbose_name='비밀번호')
+  password = models.CharField(max_length=64, verbose_name='비밀번호')
   register_date = models.DateTimeField(auto_now_add=True, verbose_name='등록날짜')
 
   def __str__(self):
