@@ -1,69 +1,77 @@
-## 🗝 Django tutorial (What is Django ?)
+# 🗝 Django tutorial (What is Django ?)
 
-
-### 목차
-   
+## 목차
+    
 ✔ Installation
 
 ✔ MTV code pattern
    
-✔ Practice
-   
-<br><br>
+✔ startproject
 
-## [Installation](https://heejung-gjt.github.io/django-01)
+✔ startapp
+   
+<br>
+    
+## Installation
 
 ### 가상환경 세팅하기
 
-가상환경 세팅 전에 python 3.x 버전을 설치하여 환경변수에 등록해준다 ( 설치시 Add Python 3.x to PATH 클릭 )
-
 패키지 간의 버전차이, 여러 충돌을 방지하기 위해 가상환경을 구축한다.
-가상환경이 성공적으로 설정되면 터미널안에 (venv_django) 가 생성된다.
+가상환경이 성공적으로 설정되면 터미널안에 venv가 생성된다.(보통 가상환경 네이밍은 venv로 지정)
 생성된 가상환경에서 django를 설치한다.
  
 
 ```bash
-$ python -m venv venv_django   #venv_djanog 가상환경 설정
-$ source venv_django/Scripts/activate  # 가상환경 실행
-$ pip install django
+$ virtualenv venv # venv가상환경 설정
+$ source venv/bin/activate  # 가상환경 실행
+$ pip install django # 원하는 패키지 설치 
 ```
 
 ### 프로젝트 생성
 
-django 프로젝트는 하나의 프로젝트와 여러개의 app으로 구성된다. app안에는 model, view, template, url매핑등 여러가지 app들로 나누어서 구성하고 있다. app들을 여러개로 구성함으로써 개발 및 유지 보수를 효율적으로 할 수 있는 장점이 있다.   
+django 프로젝트는 하나의 프로젝트와 여러개의 app으로 구성된다. app안에는 model, view, template, url매핑등 여러가지 app들로 나누어서 구성하고 있다. app들을 여러개로 구성함으로써 개발 및 유지 보수를 효율적으로 할 수 있는 장점이 있다.    
+
+```예를 들자면 project는 네이버 전체이며 app들은 네이버에서의 기능들, 로그인 기능, 메일기능, 댓글기능들을 말한다```
+
 <br>
-django-admin 명령어를 통해서 프로젝트와 app을 생성한다. 생성된 app안에 templates 폴더를 만들어준다.
+
+__django-admin__ 명령어를 통해서 프로젝트와 app을 생성한다. 생성된 app안에 templates 폴더를 만들어준다.
+Template은 html 파일로서 장고 app 폴더안에 생성하는데 요청된 정보들을 화면에 보여주기 위해 사용되는 파일이다    
+
+이때 프로젝트 생성시 뒤에 .을 꼭 붙여주자 ! 아니면 폴더안에 폴더가 생성되는 구조로 만들어진다 
 
 ```bash
-$ django-admin startproject community #community 프로젝트 생성
-$ django-admin startapp user  #user 앱 생성
+$ django-admin startproject firstproject .#firstproject 프로젝트 생성
+$ django-admin startapp firstapp  # firstapp 앱 생성
 ```
 
 ### 프로젝트 실행
 
-만들어진 프로젝트를 runserver를 통해서 실행해준다.
+만들어진 프로젝트를 runserver를 통해서 실행해준다. 이때 manage.py 파일이 있는 경로에서 실행해야 한다
 
 ```bash
 $ python manage.py runserver
 ```
 ![runserver](https://user-images.githubusercontent.com/64240637/103471082-c2aa5580-4dbe-11eb-8a15-48de2b48b445.PNG)
 
-위의 화면이 뜨면 제대로 install 된것 🙌
+위의 화면이 뜨면 제대로 install 된것 🙌   
 <br>
 
-## [MTV code pattern](https://heejung-gjt.github.io/django-02)
+## MTV code pattern
 
 ### MTV 생성
 
 django에서 MTV 패턴은 프로젝트 내에서 유저의 요청부터 응답까지 동작하는 방식에 대한 패턴이다. 
-생성된 app 안에는 model과 view는 생성이 되어져 있다. template을 사용자가 따로 생성해야 하는데 보통 앱안에서 생성을 한다.
+생성된 app 안에는 model과 view는 생성이 되어져있다. template을 사용자가 따로 생성해야 하는데 보통 앱안에서 생성을 한다.
 
-- Model 은 DB에 저장되는 데이터를 의미한다. models.py에서 생성되는 클래스는 DB의 구조로 생성되어진다. 데이터를 처리하는 로직을 가지고 있다   
-- Template 은 사용자에게 보여지는 부분이다. 사용자가 직접 접근하는 html 등과 같은 페이지를 구성한다.   
-- View 는 template에서 받은 request을 처리하고 받은 데이터를 로직으로 가공하여 reponse 해주는 역할을 한다. 
+- __Model__ 은 DB에 저장되는 데이터를 의미한다. models.py에서 생성되는 클래스는 DB의 구조로 생성되어진다. 데이터를 처리하는 로직을 가지고 있다   
+
+- __Template__ 은 사용자에게 보여지는 부분이다. 사용자가 직접 접근하는 html 등과 같은 페이지를 구성한다.    
+
+- __View__ 는 template에서 받은 request을 처리하고 받은 데이터를 로직으로 가공하여 response 해주는 역할을 한다. 
 
 
-#### 1.Model 생성 ( user app 안에 있는 MTV )
+#### 1.Model 생성 (  firstapp 안에 있는 MTV )
 
 📌  __django의 models.py 로직을 생성__   
 
@@ -120,7 +128,7 @@ form에서 Data를 request 하는데 두가지의 방식이 있다
 📌 __views.py 에서 template에서 요청받은 데이터를 논리적으로 가공하여 반환해준다.   
    이때 view에서는 요청받은 데이터를 실행, 수정, 삭제등을 할 수 있다.__
 
-~~~python
+```ython
 def register(request):
     if request.method =='GET':
         return render(request, 'register.html')
@@ -129,10 +137,150 @@ def register(request):
         password = request.POST.get('password', None)
         re_password = request.POST.get('re-password', None)
     return render(request, 'register.html', res_data)
-~~~
+```
 
 <br>
 
-## Practice - admin 페이지 
+* * *
 
-📌 [블로그 참고](https://heejung-gjt.github.io/django-02)
+## startproject
+
+### 생성되는 파일들
+
+firstproject 라는 프로젝트(root 앱)를 생성했다고 가정해보자.   
+
+```bash
+$ django-admin startproject firstproject
+```
+<br>
+
+startproject 명령어로 생성된 루트앱 안의 파일들이다   
+
+```bash
+firstproject/
+  __init__.py
+  asgi.py
+  settings.py
+  urls.py
+  wsgi.py
+```
+<br>
+
+### 📌settings.py   
+현재 django 프로젝트의 모든 환경과 구성을 포함하고 있으며 저장한다. 앞으로 생성되어지는  해당 파일에는 사용자가 만드는 모든 app, 정적 파일 위치,DB 설정 등을 등록한다.   
+- __INSTALLED_APPS__ 프로젝트에서 생성한 모든 앱들을 명시해주어야 한다. 앱들의 모든 경로가 위치하는 영역이다.    
+
+- __DATABASES__ DB를 사용하기 위한 영역이다. 기본값으로 sqlite이 지정되어 있다.      
+
+-  __STATIC_DIRS__ 정적 파일들의 경로를 설정하는 영역이다.
+
+<br>
+
+```python
+from pathlib import Path
+import os
+.
+.
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'community',  # 생성한 (root앱) 명시
+
+]
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+STATIC_URL = '/static/' 
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
+.
+.
+```
+<br>
+
+### 📌urls.py   
+startapp 명령어로 생성된 앱안에 기본으로 들어있는 파일이다. 사이트의 url과 뷰의 연결을 지정해주고 메인 프로젝트 (root 앱)에서 include하여 넘겨주는 역할을 한다.
+
+<br>
+
+#### root앱 프로젝트 생성시 만들어진 urls.py
+
+- 프로젝트 community(root앱)을 생성했을때 자동으로 생성된 urls.py이다. include는 찾은 url 패턴을 다른 urls 파일로 넘겨주는 역할을 한다.   
+즉 url에 user/ 라는 단어가 있는 경우 include를 통해서 생성한 user앱의 urls파일로 넘겨준다. user/ 에 대한 내용을 찾아 user.urls파일에서 처리해준다
+
+```python
+from django.contrib import admin
+from django.urls import include,path
+from fcuser.views import home
+
+
+urlpatterns = [
+    path('user/', include('user.urls')),
+]
+
+```
+<br>
+
+### 📌manage.py 
+manage.py는 어플리케이션을 생성하고 DB와 작업하고 웹 서버를 시작하기 위해 사용된다. command창에서 사용되는 명령어이다.   
+
+```bash
+django-admin startproject <name> # 새로운 <name> 프로젝트를 생성
+python manage.py <name> # 새로운 <name> 프로젝트를 생성
+python manage.py makemigrations <name> : 마이그레이션 파일 생성
+python manage.py migrate <name> : 마이그레이션 적용
+# migrate, makemigrations 명령어는 models.py에 정의된 모델의 생성과 변경 내역을 히스토리 관리, db에 적용 등의 기능을 제공한다.
+
+python manage.py runserver # 개발 서버 실행
+
+```
+<br>
+
+## startapp
+
+### 생성되는 파일들
+
+user 라는 앱을 생성했다고 가정해보자.   
+
+```bash
+$ django-admin startapp user
+```
+<br>
+
+startapp 명령어로 생성된 user앱 안의 파일들이다   
+
+```bash
+firstapp/
+migrations/
+__init__.py
+admin.py
+apps.py
+models.py
+tests.py
+views.py
+```
+<br>
+
+### 📌urls.py
+#### user app 생성시 만들어진 urls.py
+
+- app 을 생성했을때 자동으로 생성된 urls.py이다. 이전에 community urls.py에서 user/로 들어오는 url을 include를 사용하여 user urls.py에 넘겨주었다. user의 url을 살펴보면 register/뒤에 무엇이 오는지를 보고 처리해준다. 예를 들어 user/login, user/logout이 주소에 오는 경우 urlpatterns에서 각각의 login과 logout이라는 패턴을 순타적으로 탐색한다. 그 뒤 import한 views 함수를 이용해서 어떤 화면을 보여줄 것인지 정한다. urls.py의 역할은 여기까지 이다. 
+
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.login),  # login/으로 들어오는 url 연결해준다
+    path('logout',views.logout)
+]
+
+```
