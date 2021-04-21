@@ -284,3 +284,81 @@ urlpatterns = [
 ]
 
 ```
+<br>
+
+#### 그럼 template를 생성하기 전 HttpResponse만으로 화면에 무언가를 출력해보자      
+
+일단, urls.py에서 root에서 실행될 데이터를 가지고 있는 views를 import해준다.
+이때 name을 지정해주는 이유는 template에서 요청을 위해 접근할때가 있는데 그때 name이 기준이 된다. 하지만 지금은 단순히 response로 접근하기 때문에 필요하지는 않다.    
+```python
+# html에서 접근되는 방식
+{% url 'index' %}
+```  
+```python
+# urls.py
+
+from firstapp import views
+
+urlpatterns = [
+    path('', views.index, name = "index"),
+]
+```
+그 후 views.py에서 index 함수를 만들어 응답을 리턴해준다   
+```python
+# views.py
+
+def index(request):
+    return HttpResponse('출력 성공!')
+```
+화면에 ```출력 성공```이 뜨면 성공한 것 !    
+
+<br>
+
+#### 이제 template폴더를 만들고 진짜 index.html을 response해보자    
+
+templates 폴더를 app안에 생성해주자. 그리고나서 index.html파일을 만든다. 그 후 html을 작성해준다(template에 s 붙여주는거 잊지말자!)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>tutorial - 02</title> 
+</head>
+<body>
+  <h1>출력 성공 !</h1>
+</body>
+</html>
+```
+
+이미 urls.py에서는 index를 연결해주었기 때문에 views에서 index로 render해주면 된다. 화면에 ```출력 성공 !```이 뜨면 제대로 응답이 된 것이다
+```python
+# views.py
+from django.shortcuts import render
+
+def index(request):
+  return render(request,'index.html')
+
+```
+
+<br>
+
+#### 이제 result.html을 만들고 index.html에서 폼을 작성해 button을 누르면 result.html로 이동하는 것을 해보자    
+
+먼저 result.html을 똑같이 만들어 준 후 urls.py로 연결해준다.
+```python
+# urls.py
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('result/', views.result, name='result'),
+]
+```
+views.py에서 해당되는 result함수를 작성해준다. 이후 생성한 result.html을 render해주면 된다  
+```python
+# views.py
+
+def result(request):
+  return render(request, 'result.html')
+```
+입력창에 ```/result```를 쳐서 나오면 성공이다     
+ 
