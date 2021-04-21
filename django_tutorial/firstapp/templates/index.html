@@ -8,6 +8,12 @@
 </head>
 <body>
   <h1>출력 성공 !</h1>
-  
+  <form action="{% url 'result' %}" method="POST">
+    {% csrf_token %} 
+    <!-- 사용자 Request(요청) 보낼때마다 생기는 세션과 토큰의 값이 같을때 보내준다  보안을 위해서-->
+    <input type="text" name="text">
+    <button type="submit">결과 페이지로 이동하기</button>
+
+  </form>
 </body>
 </html>

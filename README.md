@@ -314,7 +314,7 @@ def index(request):
 
 <br>
 
-#### 이제 template폴더를 만들고 진짜 index.html을 response해보자    
+#### 이제 template폴더를 만들고 views에서 index.html을 render해보자     
 
 templates 폴더를 app안에 생성해주자. 그리고나서 index.html파일을 만든다. 그 후 html을 작성해준다(template에 s 붙여주는거 잊지말자!)
 ```html
@@ -360,5 +360,36 @@ views.py에서 해당되는 result함수를 작성해준다. 이후 생성한 re
 def result(request):
   return render(request, 'result.html')
 ```
-입력창에 ```/result```를 쳐서 나오면 성공이다     
- 
+
+index.html에 form태그를 작성한다. method로 데이터를  요청하게 되는데 POST이므로 데이터를 action에 적혀있는 result로 보낸다. 여기서 쓰인 result가 urls에 적었던 name과 동일해야 한다.     
+```html
+ <form action="{% url 'result' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">결과 페이지로 이동하기</button>
+```
+이제 해당 버튼을 누르면 result.html이 렌더링되어 화면에 보여지게 된다 
+
+<br>
+
+#### 이제 작성한 form에 input받아 작성한 데이터를 result.html에서 출력될 수 있게 해보자. 해당 데이터를 views에서 가져와 쓸 수 있게 input에는 name을 작성해야 한다
+```html
+<input type="text" name="text">
+```
+views에서 요청을 받은 데이터를 가장 먼저 POST방식인지 아닌지를 판단해준 후 요청받은 데이터를 ```request.POST['text]```로 가져온다     
+이때 데이터를 원하는 방식으로 가공할 수 있다. 지금은 간단하게 받은 데이터를 result.html에서 출력할 수 있게 context라는 딕셔너리에 데이터를 넣어준다.
+```python
+def result(request):
+  if request.method == 'POST':
+    text = request.POST['text']
+    context = {
+      'text' : text
+    }
+  return render(request, 'result.html',context)
+```
+이후 result.html에 원하는 형식으로 데이터를 출력할 수 있게 작성해준다
+```html
+  <h1>여긴 결과 페이지입니다</h1>
+  <h2>입력한 텍스트는 {{ text }} 입니다</h2>
+```
+
+이제 우리가 index.html에서 input으로 작성한 텍스트는 result에서 볼 수 있다

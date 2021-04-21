@@ -6,4 +6,9 @@ def index(request):
   return render(request,'index.html')
 
 def result(request):
-  return render(request, 'result.html')
+  if request.method == 'POST':
+    text = request.POST['text']
+    context = {
+      'text' : text
+    }
+  return render(request, 'result.html',context)
