@@ -388,8 +388,84 @@ def result(request):
 ```
 이후 result.html에 원하는 형식으로 데이터를 출력할 수 있게 작성해준다
 ```html
+<!-- result.html -->
   <h1>여긴 결과 페이지입니다</h1>
   <h2>입력한 텍스트는 {{ text }} 입니다</h2>
 ```
 
 이제 우리가 index.html에서 input으로 작성한 텍스트는 result에서 볼 수 있다
+
+#### 그렇다면 이제 마지막으로 views에서 데이터를 원하는 정보롤 가공하여 화면에 그려주자
+
+views에 임시로 데이터베이스 데이터를 만들고 text에서 작성한 데이터와 같으면 textarea에 작성한 텍스트들을 카운트 해주어 result.html에 출력해준다. 만약 같지 않으면 같지 않다는 에러 메세지를 출력해준다      
+
+__1. index.html에 textarea을 추가해준다. 이때 name을 작성하는 것 잊지말자 !__   
+```html
+<!-- index.html -->
+<input type="text" name="text"><br/><br/>
+<textarea name="textarea"></textarea><br/>
+<button type="submit">결과 페이지로 이동하기</button>
+``` 
+
+__2. views에 임시 데이터를 작성한다__
+```python
+#views.py
+students = ['이한결','이영민','김성수','이찬민','최은비','김주형']
+```
+
+__3. form에서 데이터를 받는 result에서 로직을 작성한다__    
+가장 먼저 index.html에서 보낸 데이터를 변수에 넣어준 후 딕셔너리 형태로 가공해준다. 이후에 input에 받은 데이터가 데이터베이스(students라고 부르자)안에 있는지부터 알아본다. 만약 데이터가 없으면 context를 알맞게 수정해준다  
+```python
+def result(request):
+  if request.method == 'POST':
+    text = request.POST['text']
+    textarea = request.POST['textarea']
+    context = {'text':text, 'textarea':textarea, 'verify':False}
+    if text in students: context['verify'] = True
+  return render(request, 'result.html',context)
+```
+여기서 verify의 역할은 result.html에서 조건문을 걸기 위해 필요한 값이다   
+
+```html
+<!-- result.html -->
+<h1>여긴 결과 페이지입니다</h1>
+{% if verify %}
+<h3>{{ text }}님 접속 성공 !</h3>
+{% else %}
+<h3>{{ text }}님 접속 실패</h3>
+{% endif %}
+```
+
+이제 진짜 진짜 마지막으로 접속에 성공했을때 Textarea에 작성했던 텍스트들을 카운트해준다. 이때 공백포함/공백미포함 개수를 함께 카운트해준다. 이를 위해서는 views.py에서 이에 맞게 데이터를 가공해준다
+```python
+#views.py
+context = {'text':text, 'textarea':textarea, 'verify':False}
+if text in students: 
+    context['verify'] = True
+    context['is_blank_text'] = len(textarea)
+    context['no_blank_text'] = len(textarea.replace(' ',''))
+```
+
+이제 result.html에 보여주고 싶은대로 작성해주면 된다. 이때 html에서 장고 템플릿 문법을 사용하여 조건을 걸어준다. __화면 가독성을 위해서 h태그를 사용하였다__
+```html
+<h1>여긴 결과 페이지입니다</h1>
+  {% if verify %}
+  <h3>{{ text }}님 접속 성공 !</h3>
+  <br>
+  <div>
+    <h4>{{ textarea }}</h4>
+    <h4>공백 포함한 총 개수 : {{ is_blank_text }}</h4>
+    <h4>공백 미포함 총 개수 : {{ no_blank_text }}</h4>
+  </div>
+  {% else %}
+  <h3>{{ text }}님 접속 실패</h3>
+  {% endif %}
+```
+장고 문법으로 {% if %} ~ {% else %} ~{% endif %}을 사용하였다. 이는 앞으로 차차 알아볼 예정이므로 이렇게 넘어가도록 하자. 데이터에서 받은 bool형 데이터로 이름이 데이터베이스에 존재할 경우와 존재하지 않는 경우를 나누어 화면에 그려준다    
+
+![SITE](https://user-images.githubusercontent.com/64240637/115553660-a3d9bb80-a2e8-11eb-925f-80019d469bde.png)
+![SITE2](https://user-images.githubusercontent.com/64240637/115553664-a50ae880-a2e8-11eb-8276-559bccd452b6.png)
+
+<br>
+
+#### 이제 간단한 실습을 통해서 기본적으로 장고가 어떤식으로 돌아갔는지 알게 되었다. :-)

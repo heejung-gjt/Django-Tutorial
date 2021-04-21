@@ -8,6 +8,16 @@
 </head>
 <body>
   <h1>여긴 결과 페이지입니다</h1>
-  <h2>입력한 텍스트는 {{ text }} 입니다</h2>
+  {% if verify %}
+  <h3>{{ text }}님 접속 성공 !</h3>
+  <br>
+  <div>
+    <h4>{{ textarea }}</h4>
+    <h4>공백 포함한 총 개수 : {{ is_blank_text }}</h4>
+    <h4>공백 미포함 총 개수 : {{ no_blank_text }}</h4>
+  </div>
+  {% else %}
+  <h3>{{ text }}님 접속 실패</h3>
+  {% endif %}
 </body>
 </html>
