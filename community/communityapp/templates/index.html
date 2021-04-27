@@ -8,6 +8,7 @@
     <li class="list-group-item"><a href="{% url 'category' category.pk %}">{{ category }}</a></li>
     {% endfor %}
   </ul>
+  <a href="{% url 'add_category' %}">카테고리 추가하기</a>
 </div>
 
 {% endblock %}

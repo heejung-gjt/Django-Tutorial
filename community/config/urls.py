@@ -22,4 +22,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('category/<int:pk>', views.category, name='category'),
     path('article/<int:pk>', views.article, name='article'),
+    path('add_category/',views.add_category, name='add_category'),
+    path('write/',views.write,name='write'),
 ]

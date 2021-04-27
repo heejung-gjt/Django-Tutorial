@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h3>글 작성하기 페이지</h3>
+
+<form action="{% url 'write' %}" method ="POST">
+  {% csrf_token %}
+  <input type="text" name="text" placeholder="제목을 입력해주세요">
+  <br><br>
+  <input type="text" name="writer" placeholder="작성자입력">
+  <br><br>
+  <textarea name="textarea" placeholder="내용을 입력해주세요"></textarea>
+  <br>
+  <button type="submit">등록하기</button>
+</form>
+
+{% endblock %}

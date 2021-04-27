@@ -4,3 +4,11 @@
 .list-group{
   width: 800px;
 }
+input{
+  width: 800px;
+  height: 60px;
+}
+textarea{
+  width: 800px;
+  height: 500px;
+}
